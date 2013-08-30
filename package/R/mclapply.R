@@ -8,7 +8,8 @@ mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                      packageToLoad = "", sourceFile = "") {
   if(.Platform$OS.type == "windows") {
     cl <- makeCluster(mc.cores)
-    clusterEvalQ(cl, expression(lapply(packageToLoad, library)))
+    if(packageToLoad != "") clusterEvalQ(cl, expression(lapply(packageToLoad, library)))
+    if(sourceFile != "") clusterEvalQ(cl, expression(source(sourceFile)))
     clusterFunction <- if(mc.preschedule) clusterApply else clusterApplyLB
     result <- clusterFunction(cl = cl, x = X, fun = FUN, ...=...)
     stopCluster(cl)
