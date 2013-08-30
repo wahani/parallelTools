@@ -16,7 +16,9 @@
 #   }
 # }
 
-mclapply(lapply(10^1:20, rnorm), function(x) {
-  Sys.sleep(10)
-  mean(x)
-}, mc.cores = 2)
+# mclapply(lapply(10^1:20, rnorm), function(x) {
+#   Sys.sleep(10)
+#   mean(x)
+# }, mc.cores = 2)
+
+1:10
