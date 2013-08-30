@@ -1,9 +1,11 @@
+#' mclapply - Wrapper for parallel::mclapply/clusterApply
+#' 
+#' @details Arguments are as for parallel::mclapply
+#' @export
 mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                      mc.silent = FALSE, mc.cores = 1L,
                      mc.cleanup = TRUE, mc.allow.recursive = TRUE, 
                      packageToLoad = "", sourceFile = "") {
-  
-  require(parallel)
   if(.Platform$OS.type == "windows") {
     cl <- makeCluster(mc.cores)
     clusterEvalQ(cl, expression(lapply(packageToLoad, library)))
