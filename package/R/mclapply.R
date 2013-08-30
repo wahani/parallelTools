@@ -17,8 +17,3 @@ mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                               mc.cleanup = mc.cleanup, mc.allow.recursive = mc.allow.recursive))
   }
 }
-
-MClapply(lapply(10^1:20, rnorm), function(x) {
-  Sys.sleep(10)
-  mean(x)
-}, mc.cores = detectCores())
