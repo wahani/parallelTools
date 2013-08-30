@@ -1,0 +1,12 @@
+Package: parallelTools
+Type: Package
+Title: parallelTools
+Version: 0.1
+Date: 2013-08-30
+Author: Sebastian Warnholz
+Maintainer: Sebastian Warnholz <wahani@gmail.com>
+Description: Nothing to say
+License: One Function to make multicore functionality available (limitted) in one function - mclapply
+Depends: parallel
+LazyLoad: No
+ByteCompile: TRUE
