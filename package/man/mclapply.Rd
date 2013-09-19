@@ -55,6 +55,8 @@
   \code{x = X, fun = FUN, ... = ...} - \code{mc.set.seed},
   \code{mc.silent}, \code{mc.cleanup} and
   \code{mc.allow.recursive} will be ignored under windows.
+  The function will end with \code{\link{stopCluster}} to
+  end all started sessions and return the resulting list.
 
   If \code{.Platform$OS.type} is not equal to windows the
   function \code{\link[parallel]{mclapply}} will be called,

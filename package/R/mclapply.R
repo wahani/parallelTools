@@ -17,7 +17,8 @@
 #' to "windows", \code{mc.cores} clusters will be initialized using \code{\link{makeCluster}}. Packages and sourcefiles
 #' will be loaded onto each cluster using \code{\link{clusterEvalQ}}. Then either \code{\link{clusterApply}}
 #' or \code{\link{clusterApplyLB}} is called with the arguments \code{x = X, fun = FUN, ... = ...} - \code{mc.set.seed},
-#' \code{mc.silent}, \code{mc.cleanup} and \code{mc.allow.recursive} will be ignored under windows.
+#' \code{mc.silent}, \code{mc.cleanup} and \code{mc.allow.recursive} will be ignored under windows. The function will end with 
+#' \code{\link{stopCluster}} to end all started sessions and return the resulting list.
 #' 
 #' If \code{.Platform$OS.type} is not equal to windows the function \code{\link[parallel]{mclapply}} will be called, passing
 #' all arguments but \code{packageToLoad} and \code{sourceFile} which will be ignored.
