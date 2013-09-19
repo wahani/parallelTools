@@ -9,4 +9,3 @@ Description: The package delivers one function which enables multcore functional
 License: GPL-3
 Depends: parallel
 LazyLoad: No
-ByteCompile: TRUE
