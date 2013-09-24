@@ -91,7 +91,7 @@ slowFunction <- function(dat) {
 }
 
 nCores <- detectCores() - 1 # Detects the number of cores
-dat <- genData(1) # generate some Date
+dat <- genData(1000) # generate some Date
 dat$sample <- rep_len(1:nCores, length.out = nrow(dat)) # ID for splitting the data
 dat$id <- 1:nrow(dat) # ID for observations
 dataList <- split(dat, dat$sample) # split the dataSet for processing the tasks parallel
