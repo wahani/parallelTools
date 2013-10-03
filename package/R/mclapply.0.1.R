@@ -1,12 +1,16 @@
-#' parallel version of lapply windows/linux
+#' mclapply.0.1
 #' 
-#' @description This function masks the function mclapply from package parallel. The aim is
+#' @description Old version of parallelTools::mclapply. This function masks the function mclapply from package parallel. The aim is
 #' to use multicore functionality under windows and linux. For the description of the function
 #' arguments see: \link[parallel]{mclapply} in the package parallel
 #' 
 #' @inheritParams parallel::mclapply
 #' @param mc.preschedule see \code{\link[parallel]{mclapply}} for Linux. Windows: If TRUE \code{\link{clusterApply}}
 #' will be used, if FALSE \code{\link{clusterApplyLB}} is used
+#' @param packageToLoad these two arguments are only relevant using Windows. packageToLoad is a 
+#' character vector with the names of the packages which should be loaded using \code{\link{require}} on to each
+#' cluster. In addition with sourceFile a R-Script can be specified which will be sourced on each cluster.
+#' @param sourceFile see \code{packageToLoad}
 #' @param mc.cores number of cores to be used.
 #' 
 #' @details The function will detect th operating system via \code{.Platform$OS.type}. If the platform is equal
@@ -63,7 +67,7 @@
 #' #All the same
 #' all((result1$ind == result2$ind[order(result2$id)]) & result1$ind == result3)
 #' @export
-mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
+mclapply.0.1 <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                      mc.silent = FALSE, mc.cores = 1L,
                      mc.cleanup = TRUE, mc.allow.recursive = TRUE, 
                      packageToLoad = "", sourceFile = "") {

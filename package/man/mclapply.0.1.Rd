@@ -1,8 +1,8 @@
-\name{mclapply}
-\alias{mclapply}
-\title{parallel version of lapply windows/linux}
+\name{mclapply.0.1}
+\alias{mclapply.0.1}
+\title{mclapply.0.1}
 \usage{
-  mclapply(X, FUN, ..., mc.preschedule = TRUE,
+  mclapply.0.1(X, FUN, ..., mc.preschedule = TRUE,
     mc.set.seed = TRUE, mc.silent = FALSE, mc.cores = 1L,
     mc.cleanup = TRUE, mc.allow.recursive = TRUE,
     packageToLoad = "", sourceFile = "")
@@ -12,6 +12,15 @@
   \code{\link[parallel]{mclapply}} for Linux. Windows: If
   TRUE \code{\link{clusterApply}} will be used, if FALSE
   \code{\link{clusterApplyLB}} is used}
+
+  \item{packageToLoad}{these two arguments are only
+  relevant using Windows. packageToLoad is a character
+  vector with the names of the packages which should be
+  loaded using \code{\link{require}} on to each cluster. In
+  addition with sourceFile a R-Script can be specified
+  which will be sourced on each cluster.}
+
+  \item{sourceFile}{see \code{packageToLoad}}
 
   \item{mc.cores}{number of cores to be used.}
 
@@ -50,11 +59,11 @@
   not fork again.}
 }
 \description{
-  This function masks the function mclapply from package
-  parallel. The aim is to use multicore functionality under
-  windows and linux. For the description of the function
-  arguments see: \link[parallel]{mclapply} in the package
-  parallel
+  Old version of parallelTools::mclapply. This function
+  masks the function mclapply from package parallel. The
+  aim is to use multicore functionality under windows and
+  linux. For the description of the function arguments see:
+  \link[parallel]{mclapply} in the package parallel
 }
 \details{
   The function will detect th operating system via

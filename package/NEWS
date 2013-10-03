@@ -1,0 +1,6 @@
+Version 0.2
+- global setting for packageToLoad and sourceFile instead of function arguments
+- renaming of mcapply from Version 0.1 to mclapply.0.1
+
+Version 0.1
+- parallelTools::mclapply is a simple wrapper function for parallel::mclapply when called in linux. In Windows the function will use parallel::clusterApply/parallel::clusterApplyLB.

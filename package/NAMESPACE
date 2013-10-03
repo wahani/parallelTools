@@ -1,1 +1,4 @@
+export(getPTOption)
 export(mclapply)
+export(mclapply.0.1)
+export(setPTOption)
