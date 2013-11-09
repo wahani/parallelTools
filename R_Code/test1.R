@@ -16,16 +16,10 @@
 #   options(parallelToolsPTL = packageToLoad, parallelToolsSF = sourceFile)
 # }
 
-setPTOption("testthat")
+setPTOption("Matrix")
 getPTOption()
 
-
-
-
-
-
-
-
+library(Matrix)
 genData <- function(n) {
   # Generate some Data
   dat <- data.frame()
@@ -38,6 +32,9 @@ genData <- function(n) {
 slowFunction <- function(dat) {
   # A slow function
   dat$ind <- logical(nrow(dat))
+  
+  # call something from some package:
+  Matrix(rnorm(10), 2)
   
   for (i in 1:nrow(dat)) {
     dat$ind[i] <- grepl(dat$colA[i], dat$colB[i])

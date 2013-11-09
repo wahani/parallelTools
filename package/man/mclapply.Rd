@@ -4,8 +4,7 @@
 \usage{
   mclapply(X, FUN, ..., mc.preschedule = TRUE,
     mc.set.seed = TRUE, mc.silent = FALSE, mc.cores = 1L,
-    mc.cleanup = TRUE, mc.allow.recursive = TRUE,
-    packageToLoad = "", sourceFile = "")
+    mc.cleanup = TRUE, mc.allow.recursive = TRUE)
 }
 \arguments{
   \item{mc.preschedule}{see
@@ -83,6 +82,11 @@
   running processes regularly.
 }
 \examples{
+library(Matrix)
+
+setPTOption("Matrix")
+getPTOption()
+
 genData <- function(n) {
  # Generate some Data
  dat <- data.frame()
@@ -96,6 +100,8 @@ slowFunction <- function(dat) {
  # A slow function
  dat$ind <- logical(nrow(dat))
 
+   # call something from some package:
+   Matrix(rnorm(10), 2)
  for (i in 1:nrow(dat)) {
    dat$ind[i] <- grepl(dat$colA[i], dat$colB[i])
  }

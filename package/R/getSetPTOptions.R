@@ -5,6 +5,10 @@
 #' 
 #' @inheritParams parallelTools::mclapply.0.1
 #' 
+#' @details The functions will set or get the 'parallelToolsPTL' or 'parallelToolsSF'
+#' fields in \code{\link{.Options}}. Running in windows, the function \code{\link[parallelTools]{mclapply}}
+#' will check if these fields contain any package names or source files and if so, will load
+#' them onto each cluster.
 #' @seealso \link[parallelTools]{mclapply}
 #' @author Sebastian Warnholz
 #' @rdname getSetPTOOptions

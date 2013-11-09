@@ -26,6 +26,11 @@
 #' @seealso Everything in the package "parallel": \link{clusterApply} and \link[parallel]{mclapply} and \link{mcmapply}
 #' @author Sebastian Warnholz
 #' @examples 
+#' library(Matrix)
+#' 
+#' setPTOption("Matrix")
+#' getPTOption()
+#' 
 #' genData <- function(n) {
 #'  # Generate some Data
 #'  dat <- data.frame()
@@ -39,6 +44,9 @@
 #'  # A slow function
 #'  dat$ind <- logical(nrow(dat))
 #'  
+#'    # call something from some package:
+#'    Matrix(rnorm(10), 2)
+
 #'  for (i in 1:nrow(dat)) {
 #'    dat$ind[i] <- grepl(dat$colA[i], dat$colB[i])
 #'  }
@@ -65,23 +73,37 @@
 #' @export
 mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                      mc.silent = FALSE, mc.cores = 1L,
-                     mc.cleanup = TRUE, mc.allow.recursive = TRUE, 
-                     packageToLoad = "", sourceFile = "") {
+                     mc.cleanup = TRUE, mc.allow.recursive = TRUE) {
+  
+  # For Windows
   if(.Platform$OS.type == "windows") {
+    
     clusterFunction <- if(mc.preschedule) clusterApply else clusterApplyLB
     cl <- makeCluster(mc.cores)
+    ptOptions <- getPTOption()
+    packageToLoad <- if(is.null(ptOptions)) "" else ptOptions$parallelToolsPTL
+    sourceFile <- if(is.null(ptOptions)) "" else ptOptions$parallelToolsSF
+    
+    # load packages
     if(all(packageToLoad != "")) {
       clusterExport(cl, "packageToLoad", envir = environment())
       clusterEvalQ(cl, lapply(packageToLoad, require, character.only = TRUE))
     }
+    
+    # source
     if(sourceFile != "") {
       clusterExport(cl, "sourceFile", envir = environment())
       clusterEvalQ(cl, source(sourceFile, echo=FALSE))
     }
+    
     result <- clusterFunction(cl = cl, x = X, fun = FUN, ...=...)
     stopCluster(cl)
+    
     return(result)
+    
   } else {
+    
+    # For else
     return(parallel::mclapply(X = X, FUN = FUN, ...=..., mc.preschedule = mc.preschedule, 
                               mc.set.seed = mc.set.seed, mc.silent = mc.silent, mc.cores = mc.cores,
                               mc.cleanup = mc.cleanup, mc.allow.recursive = mc.allow.recursive))

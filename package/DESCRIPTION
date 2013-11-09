@@ -2,10 +2,11 @@ Package: parallelTools
 Type: Package
 Title: parallelTools
 Version: 0.2
-Date: 2013-10-03
+Date: 2013-11-09
 Author: Sebastian Warnholz
-Maintainer: Sebastian Warnholz <wahani@gmail.com>
-Description: The package delivers one function which enables multcore functionality in Windows and other platforms without the need to rewrite the code for different platforms.
+Maintainer: Sebastian Warnholz <sebastian.warnholz@fu-berlin.de>
+Description: The package delivers one function which enables multicore functionality in Windows and other platforms without the need to rewrite the code for different platforms.
 License: GPL-3
 Depends: parallel
+Suggests: Matrix
 LazyLoad: No
