@@ -80,6 +80,7 @@ mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
     
     clusterFunction <- if(mc.preschedule) clusterApply else clusterApplyLB
     cl <- makeCluster(mc.cores)
+    on.exit(stopCluster(cl))
     ptOptions <- getPTOption()
     packageToLoad <- if(is.null(ptOptions)) "" else ptOptions$parallelToolsPTL
     sourceFile <- if(is.null(ptOptions)) "" else ptOptions$parallelToolsSF
@@ -97,7 +98,6 @@ mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
     }
     
     result <- clusterFunction(cl = cl, x = X, fun = FUN, ...=...)
-    stopCluster(cl)
     
     return(result)
     
