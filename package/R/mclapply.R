@@ -1,8 +1,7 @@
-#' parallel version of lapply windows/linux
+#' Parallel version of lapply
 #' 
 #' @description This function masks the function mclapply from package parallel. The aim is
-#' to use multicore functionality under windows and linux. For the description of the function
-#' arguments see: \link[parallel]{mclapply} in the package parallel
+#' to use multicore functionality under windows and linux using the same function call.
 #' 
 #' @inheritParams parallel::mclapply
 #' @param mc.preschedule see \code{\link[parallel]{mclapply}} for Linux. Windows: If TRUE \code{\link{clusterApply}}
@@ -12,7 +11,7 @@
 #' @details The function will detect th operating system via \code{.Platform$OS.type}. If the platform is equal
 #' to "windows", \code{mc.cores} clusters will be initialized using \code{\link{makeCluster}}. Packages and sourcefiles
 #' will be loaded onto each cluster using \code{\link{clusterEvalQ}}. Then either \code{\link{clusterApply}}
-#' or \code{\link{clusterApplyLB}} is called with the arguments \code{x = X, fun = FUN, ... = ...} - \code{mc.set.seed},
+#' or \code{\link{clusterApplyLB}} is called with the arguments \code{x = X, fun = FUN, ... = ...} - the arguments \code{mc.set.seed},
 #' \code{mc.silent}, \code{mc.cleanup} and \code{mc.allow.recursive} will be ignored under windows. The function will end with 
 #' \code{\link{stopCluster}} to end all started sessions and return the resulting list.
 #' 
@@ -20,56 +19,25 @@
 #' all arguments but \code{packageToLoad} and \code{sourceFile} which will be ignored.
 #' 
 #' This function is written to use multicore functionality in developing mainly for linux but with the ability to test
-#' the code in windows. The side effects of the applied parallelization for windows I do not know. Check the running 
-#' processes regularly.
+#' the code in windows. The function is written such that it is not necessary to use the package 
+#' running linux since in this case it is a wrapper for \code{\link[parallel]{mclapply}}.
 #' 
-#' @seealso Everything in the package "parallel": \link{clusterApply} and \link[parallel]{mclapply} and \link{mcmapply}
+#' @return See the documentation for \code{\link{clusterApply}} when running Windows or
+#' \code{\link[parallel]{mclapply}} otherwise.
+#' 
+#' @seealso \code{\link{clusterApply}}, \code{\link[parallel]{mclapply}}
 #' @author Sebastian Warnholz
-#' @examples 
-#' library(Matrix)
+#' @examples
+#' # Examples from parallel::mclapply and parallel::clusterApply:
+#' simplify2array(mclapply(rep(4, 5), rnorm, mc.cores = 2))
+#' mclapply(1:2, get("+"), 3, mc.cores = 2)
 #' 
-#' setPTOption("Matrix")
-#' getPTOption()
+#' ## Not run: ## Set up each worker, relevant for Windows, see the examples
+#' # for clusterApply for further details:
+#' setPTOption(packageToLoad = "parallel") # load the package 'parallel' on each worker.
+#' setPTOption(sourceFile = "workerSetupScript.R") # run the script on each worker.
+#' ## End(Not run)
 #' 
-#' genData <- function(n) {
-#'  # Generate some Data
-#'  dat <- data.frame()
-#'  for (i in 1:n) {
-#'    dat <- rbind(dat, data.frame(colA = letters[sample(26)], colB = letters[sample(26)]))
-#'  }
-#'  dat
-#' }
-#'
-#' slowFunction <- function(dat) {
-#'  # A slow function
-#'  dat$ind <- logical(nrow(dat))
-#'  
-#'    # call something from some package:
-#'    Matrix(rnorm(10), 2)
-
-#'  for (i in 1:nrow(dat)) {
-#'    dat$ind[i] <- grepl(dat$colA[i], dat$colB[i])
-#'  }
-#'  
-#'  dat
-#' }
-#'
-#' nCores <- detectCores() - 1 # Detects the number of cores
-#' dat <- genData(1000) # generate some Date
-#' dat$sample <- rep_len(1:nCores, length.out = nrow(dat)) # ID for splitting the data
-#' dat$id <- 1:nrow(dat) # ID for observations
-#' dataList <- split(dat, dat$sample) # split the dataSet for processing the tasks parallel
-#'
-#' system.time(result1 <- slowFunction(dat)) # Function without mc
-#'
-#' # Function with mc - should work for all platforms
-#' system.time(result2 <- do.call("rbind", mclapply(X = dataList, FUN = slowFunction, mc.cores = nCores)))
-#'
-#' # Better than mc is vecorization (in this case) - no multicore required:
-#' system.time(result3 <- mapply(grepl, as.list(dat$colA), as.list(dat$colB)))
-#'
-#' #All the same
-#' all((result1$ind == result2$ind[order(result2$id)]) & result1$ind == result3)
 #' @export
 mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
                      mc.silent = FALSE, mc.cores = 1L,
@@ -97,10 +65,8 @@ mclapply <- function(X, FUN, ..., mc.preschedule = TRUE, mc.set.seed = TRUE,
       clusterEvalQ(cl, source(sourceFile, echo=FALSE))
     }
     
-    result <- clusterFunction(cl = cl, x = X, fun = FUN, ...=...)
-    
-    return(result)
-    
+    return(clusterFunction(cl = cl, x = X, fun = FUN, ...=...))
+        
   } else {
     
     # For else

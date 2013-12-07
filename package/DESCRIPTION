@@ -1,12 +1,11 @@
 Package: parallelTools
 Type: Package
 Title: parallelTools
-Version: 0.2
-Date: 2013-11-09
+Version: 1.0
+Date: 2013-11-15
 Author: Sebastian Warnholz
 Maintainer: Sebastian Warnholz <sebastian.warnholz@fu-berlin.de>
-Description: The package delivers one function which enables multicore functionality in Windows and other platforms without the need to rewrite the code for different platforms.
+Description: The package enables multicore functionality in Windows and other platforms without the need to rewrite the code when developing for different platforms. This is achieved by masking the function mclapply from the package parallel and using either clusterApply in Windoes or mclapply otherwise.
 License: GPL-3
 Depends: parallel
-Suggests: Matrix
-LazyLoad: No
+URL: https://github.com/wahani/parallelTools
